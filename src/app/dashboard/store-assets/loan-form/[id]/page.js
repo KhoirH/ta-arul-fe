@@ -108,7 +108,7 @@ const LoanFormPage = (props) => {
     return '-';
   }, [dataAsset?.created_at])
   return <>
-    <h1 className="text-2xl font-semibold border-b-2 w-fit border-blue-600 mb-4 leading-normal">Peminjaman Asset</h1>
+    <h1 className="text-2xl font-semibold border-b-2 w-fit border-blue-600 mb-4 leading-normal">{ loanStatus === "dipinjam" ? "Peminjaman": "Pengembalian" } Asset</h1>
     <Card bordered className="!border-gray-400 !border-2 " size="small">
       <div className="flex items-baseline">
         <span className="text-lg font-medium">{dataAsset?.asset_number}. {dataAsset?.device_name}</span>

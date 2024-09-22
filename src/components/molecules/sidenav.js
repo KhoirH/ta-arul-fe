@@ -5,7 +5,8 @@ import {
   AppstoreAddOutlined,
   HistoryOutlined,
   PieChartOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
@@ -22,6 +23,7 @@ const items = [
   getItem('Home', '1', <PieChartOutlined />),
   getItem('Assets', '/dashboard/store-assets', <AppstoreAddOutlined />),
   getItem('History', '/dashboard/history-transaction', <HistoryOutlined />),
+  getItem('Employee', '/dashboard/employee', <TeamOutlined />),
 ];
 const Sidenav = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);

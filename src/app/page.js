@@ -20,7 +20,6 @@ const LoginPage = () => {
         await jsCookie.set('token', res.data.data.access_token)
         router.push('/dashboard/store-assets')
       }).catch((err) => {
-        console.log(err);
         setError(true);
         setMessageError(err.message)
         

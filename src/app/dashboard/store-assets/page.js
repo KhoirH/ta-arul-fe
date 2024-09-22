@@ -15,6 +15,12 @@ const HistoryTransaction = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [dataTable, setDataTable] = useState([]);
+  const [dataSummaryReason, setDataSummaryReason] = useState({
+    diservice: 0,
+    diretire: 0,
+    dipinjam: 0,
+    tersedia: 0,
+  });
   const [searchedColumn, setSearchedColumn] = useState('');
   const [formIncident] = Form.useForm();
   const searchInput = useRef(null);
@@ -108,9 +114,13 @@ const HistoryTransaction = () => {
         text
       ),
   });
+
   useEffect(() => {
     fetcherWithAuth(token).get('/assets').then((res) => {
       setDataTable(res.data?.data ?? [])
+    })
+    fetcherWithAuth(token).get('/assets/count-by-reason').then((res) => {
+      setDataSummaryReason(res.data.data)
     })
   }, [])
   const handleFinish = (value) => {
@@ -127,6 +137,24 @@ const HistoryTransaction = () => {
   }
   return <>
     <div>
+    <div className='mb-4 flex'>
+      <div className="bg-green-100 py-2 px-4 border rounded-md border-green-500">
+        <span className="font-medium">Tersedia :</span>
+        <span>{dataSummaryReason?.tersedia ?? 0}</span>
+      </div>
+      <div className="bg-yellow-100 py-2 px-4 border rounded-md border-yellow-500 ml-2">
+        <span className="font-medium">Diservice :</span>
+        <span>{dataSummaryReason?.diservice ?? 0}</span>
+      </div>
+      <div className="bg-red-100 py-2 px-4 border rounded-md border-red-500 ml-2">
+        <span className="font-medium">Dipinjam :</span>
+        <span>{dataSummaryReason?.dipinjam ?? 0}</span>
+      </div>
+      <div className="bg-orange-100 py-2 px-4 border rounded-md border-orange-500 ml-2">
+        <span className="font-medium">Diretire :</span>
+        <span>{dataSummaryReason?.diretire ?? 0}</span>
+      </div>
+    </div>
     <Button
       onClick={() => {
         router.push('store-assets/create')
