@@ -79,7 +79,7 @@ const LoanFormPage = (props) => {
       const name = val;
       const no_reg = val;
       
-      fetcherWithAuth(token).get(`/users/search`, {
+      fetcherWithAuth(token).get(`/employee/search`, {
         params: {
           name,
           no_reg,
@@ -90,7 +90,10 @@ const LoanFormPage = (props) => {
             label: v.name,
             value: `${v.name}-${v.no_reg}`,
             title: v.name,
-            id: v.id
+            id: v.id,
+            section: v.section,
+            line: v.line,
+            dapartement: v.dapartement,
           }))
           setOptionSearch(newArr)
         })
@@ -99,7 +102,10 @@ const LoanFormPage = (props) => {
   const loanStatus = Form.useWatch('loan_status', form);
   const condition = Form.useWatch('condition', form);
   const handleSelectData = (_, data) => {
-    form.setFieldValue('id_user', data.id)
+    form.setFieldValue('id_employee', data.id)
+    form.setFieldValue('dapartement', data.dapartement)
+    form.setFieldValue('line', data.line)
+    form.setFieldValue('section', data.section)
   }
   const lastUpdated = useMemo(() => {
     if (dataAsset?.created_at) {
@@ -144,7 +150,7 @@ const LoanFormPage = (props) => {
       <Form.Item label="Id Asset" name="id_asset" hidden>
         <Input />
       </Form.Item>
-      <Form.Item label="Id User" name="id_user" hidden>
+      <Form.Item label="Id User" name="id_employee" hidden>
         <Input />
       </Form.Item>
       <Form.Item label="PIC" name="pic">

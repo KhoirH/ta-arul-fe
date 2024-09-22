@@ -1,13 +1,12 @@
 'use client';
 
 import { fetcherWithAuth } from "@/config/fetcher";
-import { Button, ConfigProvider, Space, Table, Tooltip } from "antd";
+import { Button, ConfigProvider, Modal, Space, Table, Tooltip } from "antd";
 import Column from "antd/es/table/Column";
 import jsCookie from "js-cookie";
-import { useEffect, useState } from "react";
-import { EditOutlined, DeleteOutlined, ExportOutlined, ImportOutlined, PlusOutlined } from '@ant-design/icons';
+import { useEffect, useState, useCallback } from "react";
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { useRouter } from "next/navigation";
-
 const EmployeeCreate = () => {
   const [dataTable, setDataTable] = useState([]);
   const token = jsCookie.get('token');
@@ -15,6 +14,17 @@ const EmployeeCreate = () => {
   useEffect(() => {
     fetcherWithAuth(token).get('/employee').then((res) => {
       setDataTable(res.data?.data ?? [])
+    })
+  }, []);
+  const handleDelete = useCallback((id) => () => {
+    Modal.confirm({
+      title: "Apakah anda ingin menghapus data ini?",
+      content: "Data yang ini akan dihapus secara permanen dan tidak bisa dimunculkan kembali",
+      onOk() {
+        fetcherWithAuth(token).post(`/employee/delete/${id}`).then((res) => {
+          window.location.reload();
+        })
+      },
     })
   }, [])
   return (
@@ -94,6 +104,7 @@ const EmployeeCreate = () => {
                   type="primary"
                   icon={<DeleteOutlined />}
                   danger
+                  onClick={handleDelete(record.id)}
                 />
               </Tooltip>
             </Space>

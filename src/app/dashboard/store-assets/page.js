@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, ExportOutlined, ImportOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Form, Input, Modal, Select, Space, Table, Tooltip } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -135,6 +135,18 @@ const HistoryTransaction = () => {
       })
     })
   }
+
+  const handleDelete = useCallback((id) => () => {
+    Modal.confirm({
+      title: "Apakah anda ingin menghapus data ini?",
+      content: "Data yang ini akan dihapus secara permanen dan tidak bisa dimunculkan kembali",
+      onOk() {
+        fetcherWithAuth(token).post(`/assets/delete/${id}`).then((res) => {
+          window.location.reload();
+        })
+      },
+    })
+  }, [])
   return <>
     <div>
     <div className='mb-4 flex'>
@@ -287,6 +299,7 @@ const HistoryTransaction = () => {
                 type="primary"
                 icon={<DeleteOutlined />}
                 danger
+                onClick={handleDelete(record.id)}
               />
             </Tooltip>
           </Space>
