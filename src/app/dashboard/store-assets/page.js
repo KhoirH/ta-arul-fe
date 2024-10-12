@@ -239,6 +239,14 @@ const HistoryTransaction = () => {
         sorter={(a, b) => a.asset_year.length - b.asset_year.length}
       /> 
       <Column
+        title="Status"
+        dataIndex="reason"
+        key="reason"
+        render={(val) => (
+          <span className="capitalize">{val ?? 'tersedia'}</span>
+        )}
+      /> 
+      <Column
         title="Action"
         key="action"
         render={(_, record) => (

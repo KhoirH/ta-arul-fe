@@ -15,7 +15,8 @@ const FormAsset = (props) => {
           asset_number: +values.asset_number,
           device_name: values.device_name,
           serial_number: values.serial_number,
-          asset_year: values.asset_year
+          asset_year: values.asset_year,
+          location: values.location,
         })
         .then((res) => {
           Modal.success({
@@ -34,7 +35,8 @@ const FormAsset = (props) => {
           asset_number: +values.asset_number,
           device_name: values.device_name,
           serial_number: values.serial_number,
-          asset_year: values.asset_year
+          asset_year: values.asset_year,
+          location: values.location,
         })
         .then((res) => {
           Modal.success({
@@ -70,6 +72,9 @@ const FormAsset = (props) => {
         <Input placeholder="masukan disini" size="large" />
       </Form.Item>
       <Form.Item label="Year" name="asset_year">
+        <Input placeholder="masukan disini" size="large" />
+      </Form.Item>
+      <Form.Item label="Lokasi" name="location">
         <Input placeholder="masukan disini" size="large" />
       </Form.Item>
       <Form.Item>

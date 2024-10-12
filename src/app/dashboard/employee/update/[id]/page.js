@@ -10,7 +10,10 @@ const EmployeeCreate = async (props) => {
   const initialValues = response?.data?.data;
   // console.log(initialValues);
   return (
-    <FormEmployee type="update" initialValues={initialValues} id={props?.params?.id} />
+    <>
+      <h1 className="text-2xl font-semibold border-b-2 w-fit border-blue-600 mb-4 leading-normal">Update Employee</h1>
+      <FormEmployee type="update" initialValues={initialValues} id={props?.params?.id} />
+    </>
   )
 }
 

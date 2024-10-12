@@ -20,7 +20,6 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem('Home', '1', <PieChartOutlined />),
   getItem('Assets', '/dashboard/store-assets', <AppstoreAddOutlined />),
   getItem('History', '/dashboard/history-transaction', <HistoryOutlined />),
   getItem('Employee', '/dashboard/employee', <TeamOutlined />),
