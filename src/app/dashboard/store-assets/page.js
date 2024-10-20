@@ -180,6 +180,10 @@ const HistoryTransaction = () => {
       open={showModal}
       title="Change Status"
       footer={[]}
+      onCancel={() => {
+        setShowModal(false)
+      }}
+      closable
     >
       <Form
         layout="vertical" 
