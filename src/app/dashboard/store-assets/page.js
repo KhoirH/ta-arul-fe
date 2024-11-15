@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 const HistoryTransaction = () => {
   const token = jsCookie.get('token');
   const router = useRouter();
+  const [loadingTable, setLoadingTable] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [dataTable, setDataTable] = useState([]);
@@ -118,6 +119,7 @@ const HistoryTransaction = () => {
   useEffect(() => {
     fetcherWithAuth(token).get('/assets').then((res) => {
       setDataTable(res.data?.data ?? [])
+      setLoadingTable(false);
     })
     fetcherWithAuth(token).get('/assets/count-by-reason').then((res) => {
       setDataSummaryReason(res.data.data)
@@ -214,7 +216,7 @@ const HistoryTransaction = () => {
       </Form>
     </Modal>
     </div>
-    <Table dataSource={dataTable} >
+    <Table dataSource={dataTable} loading={loadingTable} >
       <Column
         sortDirections={['ascend', 'descend']}
         sorter={(a, b) => a.device_name.length - b.device_name.length}
@@ -241,6 +243,13 @@ const HistoryTransaction = () => {
         key="asset_year"
         sortDirections={['ascend', 'descend']}
         sorter={(a, b) => a.asset_year.length - b.asset_year.length}
+      />
+      <Column
+        title="Lokasi"
+        dataIndex="location"
+        key="location"
+        sortDirections={['ascend', 'descend']}
+        sorter={(a, b) => a.location.length - b.location.length}
       /> 
       <Column
         title="Status"
