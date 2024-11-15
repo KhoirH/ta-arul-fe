@@ -78,7 +78,7 @@ const FormAsset = (props) => {
         <Input placeholder="masukan disini" size="large" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" size="large" htmlType="submit">Simpan Asset</Button>
+        <Button type="primary" size="large" htmlType="submit">Simpan</Button>
       </Form.Item>
     </Form>
   </>

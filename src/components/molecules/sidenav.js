@@ -67,9 +67,15 @@ const Sidenav = ({ children }) => {
           }}
           className="shadow-md flex !pl-5 pr-10"
         >
-          <h4 className="font-medium" style={{ fontSize: '1.2em'}}>
-            PT Astra Motor Service Parts logistic division
-          </h4>
+          <div className='flex flex-col h-full justify-center'>  
+            <h4 className="font-medium leading-snug" style={{ fontSize: '1.2em'}}>
+              Asset Transaction Management
+            </h4>
+            <h4 className="leading-tight">
+              PT. Toyota-Astra Motor, Service Parts Logistic Division
+            </h4>
+          
+          </div>
           <div className="ml-auto">
             
             <Button className="!rounded-full" iconPosition={'end'} icon={<LogoutOutlined />} size={'large'}>

@@ -11,7 +11,7 @@ const LoanFormPage = (props) => {
   const token = jsCookie.get('token');
   const router = useRouter();
   const [dataAsset, setDataAsset] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [optionSearch, setOptionSearch] = useState([]);
   const [form] = Form.useForm();
   
@@ -24,9 +24,11 @@ const LoanFormPage = (props) => {
       })
   }, [])
   const onFinish = (values) => {
+    setLoadingSubmit(true);
     if(values.loan_status === 'dikembalikan') {
       fetcherWithAuth(token).post(`/assets/revert`, values)
         .then((res) => {
+          setLoadingSubmit(false);
           if(values.condition === 'rusak') {
             Modal.success({
               title: "Berhasil Dikembalikan",
@@ -203,7 +205,7 @@ const LoanFormPage = (props) => {
         }
       </div>
       <Form.Item>
-        <Button type="primary" size="large" htmlType="submit">Simpan Asset</Button>
+        <Button type="primary" size="large" htmlType="submit" loading={loadingSubmit} iconPosition="start">Submit</Button>
       </Form.Item>
     </Form>
   </>

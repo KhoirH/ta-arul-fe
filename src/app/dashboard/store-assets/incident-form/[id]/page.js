@@ -94,7 +94,7 @@ const IncidentForm = () => {
         }
       </div>
       <Form.Item>
-        <Button type="primary" size="large" htmlType="submit">Simpan Asset</Button>
+        <Button type="primary" size="large" htmlType="submit" loading iconPosition="start">Submit</Button>
       </Form.Item>
     </Form>
   </>

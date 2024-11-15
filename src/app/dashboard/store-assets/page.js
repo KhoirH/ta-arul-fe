@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, ExportOutlined, ImportOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, DeleteOutlined, PlusOutlined, ExportOutlined, ImportOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Form, Input, Modal, Select, Space, Table, Tooltip } from 'antd';
 import Highlighter from 'react-highlight-words';
 import Column from 'antd/es/table/Column';
@@ -149,6 +149,24 @@ const HistoryTransaction = () => {
       },
     })
   }, [])
+  const handleDownloadExcel = () => {
+    fetcherWithAuth(token)
+      .get('/assets/download', {
+        responseType: 'blob'
+      })
+        .then((response) =>  {
+          const url = window.URL.createObjectURL(
+            new Blob([response.data])
+          );
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", response.headers.get('x-filename'));
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        })
+  }
   return <>
     <div>
     <div className='mb-4 flex'>
@@ -169,15 +187,25 @@ const HistoryTransaction = () => {
         <span>{dataSummaryReason?.diretire ?? 0}</span>
       </div>
     </div>
-    <Button
-      onClick={() => {
-        router.push('store-assets/create')
-      }}
-      type="primary"
-      icon={<PlusOutlined />}
-    >
-      Tambah Asset
-    </Button>
+    <div className='flex justify-between'>
+      <Button
+        onClick={() => {
+          router.push('store-assets/create')
+        }}
+        type="primary"
+        icon={<PlusOutlined />}
+      >
+        Tambah Asset
+      </Button>
+      
+      <Button
+        onClick={handleDownloadExcel}
+        type="primary"
+        icon={<DownloadOutlined/>}
+      >
+        Export Asset
+      </Button>
+    </div>
     <Modal
       open={showModal}
       title="Change Status"
@@ -211,7 +239,7 @@ const HistoryTransaction = () => {
           </Select>
         </Form.Item>
         <Form.Item>
-          <Button type="primary"  htmlType="submit">Simpan Asset</Button>
+          <Button type="primary"  htmlType="submit">Submit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -243,6 +271,7 @@ const HistoryTransaction = () => {
         key="asset_year"
         sortDirections={['ascend', 'descend']}
         sorter={(a, b) => a.asset_year.length - b.asset_year.length}
+        {...getColumnSearchProps('asset_year')}
       />
       <Column
         title="Lokasi"
@@ -250,11 +279,13 @@ const HistoryTransaction = () => {
         key="location"
         sortDirections={['ascend', 'descend']}
         sorter={(a, b) => a.location.length - b.location.length}
+        {...getColumnSearchProps('location')}
       /> 
       <Column
         title="Status"
         dataIndex="reason"
         key="reason"
+        {...getColumnSearchProps('reason')}
         render={(val) => (
           <span className="capitalize">{val ?? 'tersedia'}</span>
         )}
@@ -298,7 +329,7 @@ const HistoryTransaction = () => {
                 },
               }}
             >
-              <Tooltip placement="top" title={record.avability ? 'Pinjaman' : 'Pengembalian'}>
+              <Tooltip placement="top" title={record.avability ? 'Peminjaman' : 'Pengembalian'}>
                 <Button
                   type="primary"
                   icon={record.avability ? <ExportOutlined /> : <ImportOutlined/>}
