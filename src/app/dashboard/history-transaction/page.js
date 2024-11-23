@@ -6,6 +6,7 @@ import Column from 'antd/es/table/Column';
 import jsCookie from 'js-cookie';
 import { DownloadOutlined } from '@ant-design/icons';
 import { fetcherWithAuth } from '@/config/fetcher';
+import dayjs from 'dayjs';
 
 const HistoryTransaction = () => {
   const [loadingTable, setLoadingTable] = useState(true);
@@ -124,6 +125,14 @@ const HistoryTransaction = () => {
             return "Baik"
           }
           return "Rusak"
+        }}
+      />
+      <Column
+        title="Tanggal Transaksi"
+        dataIndex="created_at"
+        key="created_at"
+        render={(created_at) => {
+          return dayjs(created_at).format("DD MMM YYYY")
         }}
       />
 
